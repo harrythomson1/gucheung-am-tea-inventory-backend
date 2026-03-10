@@ -28,3 +28,4 @@ class TeaVariant(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     tea = relationship("Tea", back_populates="tea_variants")
+    stock_transactions = relationship("StockTransaction", back_populates="tea_variant")
