@@ -8,9 +8,13 @@ class PackagingType(enum.Enum):
     wing = "wing"
     gift = "gift"
 
-class Unit(enum.Enum):
+class UnitType(enum.Enum):
     grams = "grams"
     bags = "bags"
+
+class FlushType(enum.Enum):
+    first = "first"
+    second = "second"
 
 class TeaVariant(Base):
     __tablename__ = "tea_variants"
@@ -18,7 +22,9 @@ class TeaVariant(Base):
     id = Column(Integer, primary_key=True, index=True)
     tea_id = Column(Integer, ForeignKey("teas.id"), nullable=False)
     packaging_type = Column(Enum(PackagingType, name="packaging_type"), nullable=False)
-    unit = Column(Enum(Unit, name="unit"), nullable=False)
+    unit = Column(Enum(UnitType, name="unit"), nullable=False)
+    flush = Column(Enum(FlushType, name="flush_type"), nullable=False)
+    harvest_year = Column(Integer, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     tea = relationship("Tea", back_populates="tea_variants")
