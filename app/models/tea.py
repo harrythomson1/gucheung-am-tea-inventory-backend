@@ -9,4 +9,4 @@ class Tea(Base):
     name = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    stock_entries = relationship("StockEntry", back_populates="tea")
+    tea_variants = relationship("TeaVariant", back_populates="tea")
