@@ -1,6 +1,6 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.services.TeasService import TeasService
+from app.services.teas_service import TeasService
 from app.core.database import get_db
 
 
