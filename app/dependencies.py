@@ -1,6 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.services.teas_service import TeasService
+from app.repositories.tea_repository import TeaRepository
 from app.core.database import get_db
 
 
@@ -11,5 +12,5 @@ async def get_teas_service(
     tea_repository=Depends(get_tea_repository),
 ):
     return TeasService(
-        repository=book_repository
+        repository=tea_repository
     )
