@@ -9,3 +9,10 @@ async def get_all_teas(
     service: TeaService = Depends(get_teas_service)
 ):
     return await service.get_all()
+
+@router.get("/teas/{tea_id}")
+async def get_tea_by_id(
+    tea_id: int,
+    service: TeaService = Depends(get_teas_service)
+):
+    return await service.get_by_id(tea_id)

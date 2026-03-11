@@ -9,3 +9,8 @@ class TeaRepository:
         query = select(Tea)
         result = await self.db.execute(query)
         return result.scalars().all()
+
+    async def get_by_id(self, id):
+        query = select(Tea).where(Tea.id == id)
+        result = await self.db.execute(query)
+        return result.scalars().first()
