@@ -1,25 +1,8 @@
-import enum
-
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, func
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
-
-
-class PackagingType(enum.Enum):
-    foil = "foil"
-    wing = "wing"
-    gift = "gift"
-
-
-class UnitType(enum.Enum):
-    grams = "grams"
-    bags = "bags"
-
-
-class FlushType(enum.Enum):
-    first = "first"
-    second = "second"
+from app.enums import FlushType, PackagingType, UnitType
 
 
 class TeaVariant(Base):

@@ -1,24 +1,9 @@
-import enum
-
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
-
-
-class TransactionType(enum.Enum):
-    sale = "sale"
-    donation = "donation"
-    ceremony = "ceremony"
-    damaged = "damaged"
-    convert = "convert"
-    harvest = "harvest"
-
-
-class SalesChannelType(enum.Enum):
-    online = "online"
-    offline = "offline"
+from app.enums import SalesChannelType, TransactionType
 
 
 class StockTransaction(Base):

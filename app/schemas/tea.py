@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from app.models import FlushType, PackagingType, UnitType
+from app.enums import FlushType, PackagingType, UnitType
 
 
 class TeaResponse(BaseModel):
