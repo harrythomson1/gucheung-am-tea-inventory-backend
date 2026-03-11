@@ -1,16 +1,17 @@
 from fastapi import APIRouter, Depends
 
 from app.dependencies import get_teas_service
+from app.schemas.tea import TeaDetailResponse, TeaResponse
 from app.services.tea_service import TeaService
 
 router = APIRouter()
 
 
-@router.get("/teas")
+@router.get("/teas", response_model=list[TeaResponse])
 async def get_all_teas(service: TeaService = Depends(get_teas_service)):
     return await service.get_all()
 
 
-@router.get("/teas/{tea_id}")
+@router.get("/teas/{tea_id}", response_model=TeaDetailResponse)
 async def get_tea_by_id(tea_id: int, service: TeaService = Depends(get_teas_service)):
     return await service.get_by_id(tea_id)
