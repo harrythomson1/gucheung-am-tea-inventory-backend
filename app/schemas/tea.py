@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from app.enums import FlushType, PackagingType, UnitType
+from app.enums import FlushType, PackagingType
 
 
 class TeaResponse(BaseModel):
@@ -16,7 +16,6 @@ class TeaResponse(BaseModel):
 class TeaVariantResponse(BaseModel):
     id: int
     packaging: PackagingType
-    unit: UnitType
     flush: FlushType
     harvest_year: int
     created_at: datetime

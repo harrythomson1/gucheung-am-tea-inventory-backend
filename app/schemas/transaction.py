@@ -7,7 +7,6 @@ from app.enums import (
     PackagingType,
     SalesChannelType,
     TransactionType,
-    UnitType,
 )
 
 
@@ -16,7 +15,6 @@ class CreateTransactionRequest(BaseModel):
     tea_id: str | None = None
     tea_variant_id: int | None = None
     packaging: PackagingType | None = None
-    unit: UnitType | None = None
     flush: FlushType | None = None
     harvest_year: int | None = None
     quantity_change: int

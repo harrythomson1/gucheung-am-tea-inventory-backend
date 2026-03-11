@@ -21,11 +21,6 @@ class PackagingType(enum.Enum):
     gift = "gift"
 
 
-class UnitType(enum.Enum):
-    grams = "grams"
-    bags = "bags"
-
-
 class FlushType(enum.Enum):
     first = "first"
     second = "second"
