@@ -1,6 +1,6 @@
 import enum
 from sqlalchemy import Column, Integer, Enum, DateTime, func, ForeignKey, Date
-from core.database import Base
+from app.core.database import Base
 from sqlalchemy.orm import relationship
 
 class PackagingType(enum.Enum):

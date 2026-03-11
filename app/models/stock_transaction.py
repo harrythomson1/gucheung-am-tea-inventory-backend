@@ -1,7 +1,7 @@
 import enum
 from sqlalchemy import Column, Integer, Enum, DateTime, func, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
-from core.database import Base
+from app.core.database import Base
 from sqlalchemy.orm import relationship
 
 class TransactionType(enum.Enum):
