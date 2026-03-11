@@ -29,7 +29,7 @@ async def seed():
                     id=int(row["id"]),
                     tea_id=int(row["tea_id"]),
                     packaging=row["packaging"],
-                    unit=row["unit"],
+                    weight_grams=row["weight_grams"],
                     flush=row["flush"],
                     harvest_year=int(row["harvest_year"]),
                 )
