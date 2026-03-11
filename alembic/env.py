@@ -1,6 +1,6 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import create_engine
 from sqlalchemy import pool
 from dotenv import load_dotenv
 import os
@@ -69,15 +69,13 @@ def run_migrations_online() -> None:
         raise ValueError("DATABASE_URL environment variable not set")
     configuration = config.get_section(config.config_ini_section) or {}
     configuration["sqlalchemy.url"] = database_url
-    connectable = engine_from_config(
-        configuration,
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    sync_url = configuration["sqlalchemy.url"].replace("postgresql+asyncpg", "postgresql+psycopg2")
+    connectable = create_engine(sync_url, poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata
         )
 
         with context.begin_transaction():
