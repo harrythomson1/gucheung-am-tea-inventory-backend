@@ -28,7 +28,7 @@ async def seed():
                 tea_variant = TeaVariant(
                     id=int(row["id"]),
                     tea_id=int(row["tea_id"]),
-                    packaging_type=row["packaging_type"],
+                    packaging=row["packaging"],
                     unit=row["unit"],
                     flush=row["flush"],
                     harvest_year=int(row["harvest_year"]),
