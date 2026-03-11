@@ -14,6 +14,7 @@ class TeaVariant(Base):
     flush = Column(Enum(FlushType, name="flush_type"), nullable=False)
     harvest_year = Column(Integer, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    weight_grams = Column(Integer, nullable=False)
 
     tea = relationship("Tea", back_populates="tea_variants")
     stock_transactions = relationship("StockTransaction", back_populates="tea_variant")
