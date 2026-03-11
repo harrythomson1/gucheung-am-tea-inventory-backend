@@ -1,4 +1,4 @@
-class TeasService:
+class TeaService:
 
     def __init__(self, repository):
         self.repository = repository
