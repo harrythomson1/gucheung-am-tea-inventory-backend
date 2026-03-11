@@ -27,7 +27,7 @@ class TeaVariant(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     tea_id = Column(Integer, ForeignKey("teas.id"), nullable=False)
-    packaging_type = Column(Enum(PackagingType, name="packaging_type"), nullable=False)
+    packaging = Column(Enum(PackagingType, name="packaging_type"), nullable=False)
     unit = Column(Enum(UnitType, name="unit"), nullable=False)
     flush = Column(Enum(FlushType, name="flush_type"), nullable=False)
     harvest_year = Column(Integer, nullable=False)
