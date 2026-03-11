@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from app.models.tea import Tea
 
 class TeaRepository:
@@ -11,6 +12,6 @@ class TeaRepository:
         return result.scalars().all()
 
     async def get_by_id(self, id):
-        query = select(Tea).where(Tea.id == id)
+        query = select(Tea).where(Tea.id == id).options(selectinload(Tea.tea_variants))
         result = await self.db.execute(query)
         return result.scalars().first()
