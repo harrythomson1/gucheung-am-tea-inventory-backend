@@ -13,7 +13,7 @@ from app.enums import (
 
 class CreateTransactionRequest(BaseModel):
     transaction_type: TransactionType
-    tea_name: str | None = None
+    tea_id: str | None = None
     tea_variant_id: int | None = None
     packaging: PackagingType | None = None
     unit: UnitType | None = None
@@ -32,8 +32,8 @@ class CreateTransactionRequest(BaseModel):
     @model_validator(mode="after")
     def validate_transaction_fields(self):
         if self.transaction_type == TransactionType.harvest:
-            if not self.tea_name:
-                raise ValueError("tea_name is required for harvest transactions")
+            if not self.tea_id:
+                raise ValueError("tea_id is required for harvest transactions")
             if not self.packaging:
                 raise ValueError("packaging is required for harvest transactions")
             if not self.flush:
