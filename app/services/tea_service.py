@@ -4,4 +4,4 @@ class TeaService:
         self.repository = repository
 
     async def get_all(self):
-        return await self.repository.get_all
+        return await self.repository.get_all()
