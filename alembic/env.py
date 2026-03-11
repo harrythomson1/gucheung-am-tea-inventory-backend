@@ -1,15 +1,11 @@
+import os
 from logging.config import fileConfig
 
-from sqlalchemy import create_engine
-from sqlalchemy import pool
 from dotenv import load_dotenv
-import os
-from app.models.tea import Tea
-from app.models.tea_variant import TeaVariant
-from app.models.stock_transaction import StockTransaction
-from app.core.database import Base
+from sqlalchemy import create_engine, pool
 
 from alembic import context
+from app.core.database import Base
 
 load_dotenv()
 # this is the Alembic Config object, which provides
@@ -69,14 +65,13 @@ def run_migrations_online() -> None:
         raise ValueError("DATABASE_URL environment variable not set")
     configuration = config.get_section(config.config_ini_section) or {}
     configuration["sqlalchemy.url"] = database_url
-    sync_url = configuration["sqlalchemy.url"].replace("postgresql+asyncpg", "postgresql+psycopg2")
+    sync_url = configuration["sqlalchemy.url"].replace(
+        "postgresql+asyncpg", "postgresql+psycopg2"
+    )
     connectable = create_engine(sync_url, poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

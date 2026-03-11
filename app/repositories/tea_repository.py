@@ -1,6 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+
 from app.models.tea import Tea
+
 
 class TeaRepository:
     def __init__(self, db):

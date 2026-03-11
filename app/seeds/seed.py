@@ -1,17 +1,19 @@
-from app.models import Tea, TeaVariant, StockTransaction
-from app.core.database import get_db
+import asyncio
 import csv
 import os
-from app.core.database import SessionLocal
 import uuid
-import asyncio
+
+from app.core.database import SessionLocal, get_db
+from app.models import StockTransaction, Tea, TeaVariant
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 db = get_db()
 
+
 async def seed():
     async with SessionLocal() as db:
-        with open(os.path.join(BASE_DIR, 'teas.csv'), newline='') as csvfile:
+        with open(os.path.join(BASE_DIR, "teas.csv"), newline="") as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 tea = Tea(
@@ -20,7 +22,7 @@ async def seed():
                 )
                 db.add(tea)
 
-        with open(os.path.join(BASE_DIR, 'tea_variants.csv'), newline='') as csvfile:
+        with open(os.path.join(BASE_DIR, "tea_variants.csv"), newline="") as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 tea_variant = TeaVariant(
@@ -29,11 +31,13 @@ async def seed():
                     packaging_type=row["packaging_type"],
                     unit=row["unit"],
                     flush=row["flush"],
-                    harvest_year=int(row["harvest_year"])
+                    harvest_year=int(row["harvest_year"]),
                 )
                 db.add(tea_variant)
 
-        with open(os.path.join(BASE_DIR, 'stock_transactions.csv'), newline='') as csvfile:
+        with open(
+            os.path.join(BASE_DIR, "stock_transactions.csv"), newline=""
+        ) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 stock_transaction = StockTransaction(
@@ -50,6 +54,7 @@ async def seed():
                 )
                 db.add(stock_transaction)
         await db.commit()
+
 
 if __name__ == "__main__":
     asyncio.run(seed())
