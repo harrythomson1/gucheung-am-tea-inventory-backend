@@ -1,7 +1,7 @@
 from sqlalchemy import func, select
 
-from app.models import StockTransaction
-from app.schemas import CreateTransactionRequest
+from app.models import StockTransaction, Tea, TeaVariant
+from app.schemas import ActivityFeedResponse, CreateTransactionRequest
 
 
 class TransactionRepository:
@@ -33,3 +33,27 @@ class TransactionRepository:
         )
         result = await self.db.execute(query)
         return result.scalar() or 0
+
+    async def get_latest_transactions(self) -> list[ActivityFeedResponse]:
+        query = (
+            select(
+                StockTransaction.quantity_change,
+                StockTransaction.transaction_type,
+                StockTransaction.sales_channel,
+                StockTransaction.buyer_name,
+                StockTransaction.created_at,
+                StockTransaction.performed_by_name,
+                StockTransaction.notes,
+                TeaVariant.packaging,
+                TeaVariant.flush,
+                TeaVariant.harvest_year,
+                TeaVariant.weight_grams,
+                Tea.name.label("tea_name"),
+            )
+            .join(TeaVariant, TeaVariant.id == StockTransaction.tea_variant_id)
+            .join(Tea, Tea.id == TeaVariant.tea_id)
+            .order_by(StockTransaction.created_at.desc())
+            .limit(20)
+        )
+        result = await self.db.execute(query)
+        return result.mappings().all()
