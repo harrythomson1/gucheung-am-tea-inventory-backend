@@ -1,8 +1,9 @@
 from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
+from app.enums import FlushType, PackagingType
 from app.models import StockTransaction, Tea, TeaVariant
-from app.schemas import DashboardTeaResponse
+from app.schemas import DashboardTeaResponse, TeaVariantStockResponse
 
 
 class TeaRepository:
@@ -30,5 +31,35 @@ class TeaRepository:
             .join(StockTransaction, StockTransaction.tea_variant_id == TeaVariant.id)
             .group_by(Tea.id, Tea.name)
         )
+        result = await self.db.execute(query)
+        return result.mappings().all()
+
+    async def get_stock_summary_by_tea_id(
+        self,
+        tea_id: int,
+        packaging: PackagingType | None = None,
+        flush: FlushType | None = None,
+        harvest_year: int | None = None,
+    ) -> list[TeaVariantStockResponse]:
+        query = (
+            select(
+                TeaVariant.id,
+                TeaVariant.packaging,
+                TeaVariant.flush,
+                TeaVariant.harvest_year,
+                TeaVariant.weight_grams,
+                func.sum(StockTransaction.quantity_change).label("current_stock"),
+            )
+            .join(StockTransaction, StockTransaction.tea_variant_id == TeaVariant.id)
+            .where(TeaVariant.tea_id == tea_id)
+            .group_by(TeaVariant.id)
+        )
+        if packaging:
+            query = query.where(TeaVariant.packaging == packaging)
+        if flush:
+            query = query.where(TeaVariant.flush == flush)
+        if harvest_year:
+            query = query.where(TeaVariant.harvest_year == harvest_year)
+
         result = await self.db.execute(query)
         return result.mappings().all()
