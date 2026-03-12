@@ -25,3 +25,16 @@ class TransactionService:
         variant = await self.tea_variant_repository.find_or_create(transaction_info)
         transaction = await self.repository.create(transaction_info, int(variant.id))  # type: ignore
         return transaction
+
+    async def _create_removal(
+        self, transaction_info: CreateTransactionRequest
+    ) -> StockTransaction:
+        variant = await self.tea_variant_repository.get_by_id(
+            int(transaction_info.tea_variant_id)  # type: ignore
+        )
+        if not variant:
+            raise HTTPException(status_code=404, detail="variant not found")
+        current_stock = await self.repository.get_current_stock(int(variant.id))  # type: ignore
+        if current_stock + transaction_info.quantity_change < 0:
+            raise HTTPException(status_code=400, detail="Insufficient stock")
+        return await self.repository.create(transaction_info, int(variant.id))  # type: ignore
