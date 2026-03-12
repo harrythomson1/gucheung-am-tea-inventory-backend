@@ -28,7 +28,7 @@ class TransactionService:
     async def _create_harvest(
         self, transaction_info: CreateTransactionRequest
     ) -> StockTransaction:
-        tea = await self.tea_repository.get_by_id(transaction_info.tea_id)
+        tea = await self.tea_repository.get_by_id(int(transaction_info.tea_id))  # type: ignore
         if not tea:
             raise HTTPException(status_code=404, detail="Tea not found")
         variant = await self.tea_variant_repository.find_or_create(transaction_info)
