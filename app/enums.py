@@ -16,9 +16,10 @@ class SalesChannelType(enum.Enum):
 
 
 class PackagingType(enum.Enum):
-    foil = "foil"
+    silver = "silver"
     wing = "wing"
     gift = "gift"
+    mixed = "mixed"
 
 
 class FlushType(enum.Enum):
