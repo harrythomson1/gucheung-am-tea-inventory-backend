@@ -30,3 +30,14 @@ class TeaDetailResponse(BaseModel):
     tea_variants: list[TeaVariantResponse] = []
 
     model_config = {"from_attributes": True}
+
+
+class TeaVariantStockResponse(BaseModel):
+    id: int
+    packaging: PackagingType
+    flush: FlushType
+    harvest_year: int
+    weight_grams: int
+    current_stock: int
+
+    model_config = {"from_attributes": True}
