@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 
 from app.dependencies import get_transaction_service
-from app.schemas.transaction import CreateTransactionRequest
+from app.schemas import ActivityFeedResponse, CreateTransactionRequest
 from app.services.transaction_service import TransactionService
 
 router = APIRouter()
@@ -16,3 +16,10 @@ async def create_transaction(
 ):
     await service.create(transaction_info)
     return None
+
+
+@router.get("/transactions", response_model=list[ActivityFeedResponse])
+async def get_latest_transactions(
+    service: TransactionService = Depends(get_transaction_service),
+):
+    return await service.get_latest_transactions()
