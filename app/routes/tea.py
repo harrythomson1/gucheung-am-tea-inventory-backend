@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.dependencies import get_teas_service
-from app.schemas.tea import TeaDetailResponse, TeaResponse
+from app.enums import FlushType, PackagingType
+from app.schemas import TeaDetailResponse, TeaResponse, TeaVariantStockResponse
 from app.services.tea_service import TeaService
 
 router = APIRouter()
@@ -21,3 +22,19 @@ async def get_tea_by_id(tea_id: int, service: TeaService = Depends(get_teas_serv
     if not tea:
         raise HTTPException(status_code=404, detail="Tea not found")
     return tea
+
+
+@router.get("/teas/{tea_id}/stock", response_model=list[TeaVariantStockResponse])
+async def get_stock_summary_by_id(
+    tea_id: int,
+    packaging: PackagingType | None = None,
+    flush: FlushType | None = None,
+    harvest_year: int | None = None,
+    service: TeaService = Depends(get_teas_service),
+):
+    stock_summary = await service.get_stock_summary_by_id(
+        tea_id, packaging, flush, harvest_year
+    )
+    if not stock_summary:
+        raise HTTPException(status_code=404, detail="Stock summary not found")
+    return stock_summary
