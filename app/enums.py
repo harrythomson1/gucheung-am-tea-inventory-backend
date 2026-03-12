@@ -25,3 +25,4 @@ class PackagingType(enum.Enum):
 class FlushType(enum.Enum):
     first = "first"
     second = "second"
+    mixed = "mixed"
