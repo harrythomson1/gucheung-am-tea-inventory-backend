@@ -17,6 +17,7 @@ class CreateTransactionRequest(BaseModel):
     packaging: PackagingType | None = None
     flush: FlushType | None = None
     harvest_year: int | None = None
+    weight_grams: int | None = None
     quantity_change: int
     performed_by_id: UUID
     performed_by_name: str
@@ -38,6 +39,8 @@ class CreateTransactionRequest(BaseModel):
                 raise ValueError("flush is required for harvest transactions")
             if not self.harvest_year:
                 raise ValueError("harvest_year is required for harvest transactions")
+            if not self.weight_grams:
+                raise ValueError("weight_grams is required for harvest transactions")
             if self.quantity_change <= 0:
                 raise ValueError(
                     "quantity_change must be positive for harvest transactions"
