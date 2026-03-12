@@ -1,11 +1,14 @@
 from app.models import StockTransaction
+from app.schemas import CreateTransactionRequest
 
 
 class TransactionRepository:
     def __init__(self, db):
         self.db = db
 
-    async def create(self, transaction_info, variant_id=None):
+    async def create(
+        self, transaction_info: CreateTransactionRequest, variant_id: int | None = None
+    ) -> StockTransaction:
         transaction = StockTransaction(
             tea_variant_id=variant_id or transaction_info.tea_variant_id,
             quantity_change=transaction_info.quantity_change,
