@@ -35,3 +35,8 @@ class TeaVariantRepository:
         await self.db.commit()
         await self.db.refresh(variant)
         return variant
+
+    async def get_by_id(self, tea_variant_id: int) -> TeaVariant | None:
+        query = select(TeaVariant).where(TeaVariant.id == tea_variant_id)
+        result = await self.db.execute(query)
+        return result.scalars().first()
