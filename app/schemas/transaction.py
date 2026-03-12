@@ -12,7 +12,7 @@ from app.enums import (
 
 class CreateTransactionRequest(BaseModel):
     transaction_type: TransactionType
-    tea_id: str | None = None
+    tea_id: int | None = None
     tea_variant_id: int | None = None
     packaging: PackagingType | None = None
     flush: FlushType | None = None
