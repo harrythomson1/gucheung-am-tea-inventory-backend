@@ -34,7 +34,7 @@ class TeaRepository:
         result = await self.db.execute(query)
         return result.mappings().all()
 
-    async def get_stock_summary_by_tea_id(
+    async def get_stock_summary_by_id(
         self,
         tea_id: int,
         packaging: PackagingType | None = None,
