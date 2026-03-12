@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from app.enums import TransactionType
 from app.models import StockTransaction
 from app.repositories import TeaRepository, TeaVariantRepository, TransactionRepository
-from app.schemas import CreateTransactionRequest
+from app.schemas import ActivityFeedResponse, CreateTransactionRequest
 
 
 class TransactionService:
@@ -24,6 +24,9 @@ class TransactionService:
             return await self._create_harvest(transaction_info)
         else:
             return await self._create_removal(transaction_info)
+
+    async def get_latest_transactions(self) -> list[ActivityFeedResponse]:
+        return await self.repository.get_latest_transactions()
 
     async def _create_harvest(
         self, transaction_info: CreateTransactionRequest
