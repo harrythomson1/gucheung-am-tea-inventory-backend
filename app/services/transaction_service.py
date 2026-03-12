@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 
+from app.enums import TransactionType
 from app.models import StockTransaction
 from app.repositories import TeaRepository, TeaVariantRepository, TransactionRepository
 from app.schemas import CreateTransactionRequest
@@ -15,6 +16,14 @@ class TransactionService:
         self.repository = repository
         self.tea_repository = tea_repository
         self.tea_variant_repository = tea_variant_repository
+
+    async def create(
+        self, transaction_info: CreateTransactionRequest
+    ) -> StockTransaction:
+        if transaction_info.transaction_type == TransactionType.harvest:
+            return await self._create_harvest(transaction_info)
+        else:
+            return await self._create_removal(transaction_info)
 
     async def _create_harvest(
         self, transaction_info: CreateTransactionRequest
