@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 
-from app.routes import tea
+from app.routes import tea, transaction
 
 app = FastAPI()
 
 app.include_router(tea.router)
+app.include_router(transaction.router)
 
 
 @app.get("/")
