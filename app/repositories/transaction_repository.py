@@ -1,3 +1,5 @@
+from sqlalchemy import func, select
+
 from app.models import StockTransaction
 from app.schemas import CreateTransactionRequest
 
@@ -24,3 +26,10 @@ class TransactionRepository:
         await self.db.commit()
         await self.db.refresh(transaction)
         return transaction
+
+    async def get_current_stock(self, tea_variant_id: int) -> int:
+        query = select(func.sum(StockTransaction.quantity_change)).where(
+            StockTransaction.tea_variant_id == tea_variant_id
+        )
+        result = await self.db.execute(query)
+        return result.scalar() or 0
