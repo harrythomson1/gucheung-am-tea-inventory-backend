@@ -28,5 +28,5 @@ class TeaService:
             tea_id, packaging, flush, harvest_year
         )
 
-    async def add(self, tea_info: CreateTeaRequest) -> Tea:
-        return await self.repository.add(tea_info=tea_info)
+    async def create(self, tea_info: CreateTeaRequest) -> Tea:
+        return await self.repository.create(tea_info=tea_info)

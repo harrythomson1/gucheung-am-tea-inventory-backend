@@ -68,7 +68,7 @@ class TeaRepository:
         result = await self.db.execute(query)
         return result.mappings().all()
 
-    async def add(self, tea_info: CreateTeaRequest) -> Tea:
+    async def create(self, tea_info: CreateTeaRequest) -> Tea:
         tea = Tea(name=tea_info.name)
         self.db.add(tea)
         await self.db.commit()
