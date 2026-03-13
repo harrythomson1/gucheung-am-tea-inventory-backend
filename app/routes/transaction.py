@@ -67,7 +67,12 @@ async def export_transactions_as_csv(
         ],
     )
     writer.writeheader()
-    writer.writerows([dict(t) for t in transactions])
+    writer.writerows(
+        [
+            {k: v.value if hasattr(v, "value") else v for k, v in dict(t).items()}
+            for t in transactions
+        ]
+    )
 
     return StreamingResponse(
         io.StringIO(output.getvalue()),
