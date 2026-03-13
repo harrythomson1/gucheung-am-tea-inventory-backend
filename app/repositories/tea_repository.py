@@ -3,7 +3,11 @@ from sqlalchemy.orm import selectinload
 
 from app.enums import FlushType, PackagingType
 from app.models import StockTransaction, Tea, TeaVariant
-from app.schemas import DashboardTeaResponse, TeaVariantStockResponse
+from app.schemas import (
+    CreateTeaRequest,
+    DashboardTeaResponse,
+    TeaVariantStockResponse,
+)
 
 
 class TeaRepository:
@@ -63,3 +67,10 @@ class TeaRepository:
 
         result = await self.db.execute(query)
         return result.mappings().all()
+
+    async def add(self, tea_info: CreateTeaRequest) -> Tea:
+        tea = Tea(name=tea_info.name)
+        self.db.add(tea)
+        await self.db.commit()
+        await self.db.refresh(tea)
+        return tea
