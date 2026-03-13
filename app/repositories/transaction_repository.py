@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from enums import TransactionType
 from sqlalchemy import func, select
 
 from app.models import StockTransaction, Tea, TeaVariant
@@ -55,5 +58,45 @@ class TransactionRepository:
             .order_by(StockTransaction.created_at.desc())
             .limit(20)
         )
+        result = await self.db.execute(query)
+        return result.mappings().all()
+
+    async def export_transactions_as_csv(
+        self,
+        start_date: datetime | None = None,
+        end_date: datetime | None = None,
+        transaction_type: TransactionType | None = None,
+        tea_name: str | None = None,
+        buyer_name: str | None = None,
+    ) -> list[ActivityFeedResponse]:
+        query = (
+            select(
+                StockTransaction.quantity_change,
+                StockTransaction.transaction_type,
+                StockTransaction.sales_channel,
+                StockTransaction.buyer_name,
+                StockTransaction.created_at,
+                StockTransaction.performed_by_name,
+                StockTransaction.notes,
+                TeaVariant.packaging,
+                TeaVariant.flush,
+                TeaVariant.harvest_year,
+                TeaVariant.weight_grams,
+                Tea.name.label("tea_name"),
+            )
+            .join(TeaVariant, TeaVariant.id == StockTransaction.tea_variant_id)
+            .join(Tea, Tea.id == TeaVariant.tea_id)
+            .order_by(StockTransaction.created_at.desc())
+        )
+        if transaction_type:
+            query = query.where(StockTransaction.transaction_type == transaction_type)
+        if tea_name:
+            query = query.where(Tea.name.ilike(f"%{tea_name}%"))
+        if buyer_name:
+            query = query.where(StockTransaction.buyer_name.ilike(f"%{buyer_name}%"))
+        if start_date:
+            query = query.where(StockTransaction.created_at >= start_date)
+        if end_date:
+            query = query.where(StockTransaction.created_at <= end_date)
         result = await self.db.execute(query)
         return result.mappings().all()
