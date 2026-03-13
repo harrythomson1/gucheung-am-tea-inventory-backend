@@ -41,3 +41,7 @@ class TeaVariantStockResponse(BaseModel):
     current_stock: int
 
     model_config = {"from_attributes": True}
+
+
+class CreateTeaRequest(BaseModel):
+    name: str
