@@ -5,6 +5,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import StreamingResponse
 
+from app.auth.utils import get_current_user
 from app.dependencies import get_transaction_service
 from app.enums import TransactionType
 from app.schemas import ActivityFeedResponse, CreateTransactionRequest
@@ -18,6 +19,7 @@ transaction_service_dependency = Depends(get_transaction_service)
 @router.post("/transactions", status_code=status.HTTP_201_CREATED)
 async def create_transaction(
     transaction_info: CreateTransactionRequest,
+    _: dict = Depends(get_current_user),
     service: TransactionService = transaction_service_dependency,
 ):
     await service.create(transaction_info)
@@ -26,6 +28,7 @@ async def create_transaction(
 
 @router.get("/transactions", response_model=list[ActivityFeedResponse])
 async def get_latest_transactions(
+    _: dict = Depends(get_current_user),
     service: TransactionService = Depends(get_transaction_service),
 ):
     return await service.get_latest_transactions()
@@ -33,6 +36,7 @@ async def get_latest_transactions(
 
 @router.get("/transactions/export")
 async def export_transactions_as_csv(
+    _: dict = Depends(get_current_user),
     service: TransactionService = transaction_service_dependency,
     start_date: datetime | None = None,
     end_date: datetime | None = None,
