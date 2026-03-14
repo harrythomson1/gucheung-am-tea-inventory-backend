@@ -12,14 +12,17 @@ class TransactionRepository:
         self.db = db
 
     async def create(
-        self, transaction_info: CreateTransactionRequest, variant_id: int | None = None
+        self,
+        transaction_info: CreateTransactionRequest,
+        current_user: dict,
+        variant_id: int | None = None,
     ) -> StockTransaction:
         transaction = StockTransaction(
             tea_variant_id=variant_id or transaction_info.tea_variant_id,
             quantity_change=transaction_info.quantity_change,
             transaction_type=transaction_info.transaction_type,
-            performed_by_id=transaction_info.performed_by_id,
-            performed_by_name=transaction_info.performed_by_name,
+            performed_by_id=current_user.get("sub"),
+            performed_by_name=current_user.get("user_metadata", {}).get("display_name"),
             buyer_name=transaction_info.buyer_name,
             buyer_phone=transaction_info.buyer_phone,
             sales_channel=transaction_info.sales_channel,

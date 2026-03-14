@@ -19,10 +19,10 @@ transaction_service_dependency = Depends(get_transaction_service)
 @router.post("/transactions", status_code=status.HTTP_201_CREATED)
 async def create_transaction(
     transaction_info: CreateTransactionRequest,
-    _: dict = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     service: TransactionService = transaction_service_dependency,
 ):
-    await service.create(transaction_info)
+    await service.create(transaction_info, current_user)
     return None
 
 

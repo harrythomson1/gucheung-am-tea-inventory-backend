@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from pydantic import BaseModel, model_validator
 
 from app.enums import (
@@ -19,8 +17,6 @@ class CreateTransactionRequest(BaseModel):
     harvest_year: int | None = None
     weight_grams: int | None = None
     quantity_change: int
-    performed_by_id: UUID
-    performed_by_name: str
     buyer_name: str | None = None
     buyer_phone: str | None = None
     sales_channel: SalesChannelType | None = None
