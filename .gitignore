@@ -16,3 +16,4 @@ alembic/versions/*.pyc
 *.swp
 .DS_Store
 Thumbs.db
+app/seeds/*.csv
