@@ -9,6 +9,6 @@ app.include_router(transaction.router)
 app.include_router(dashboard.router)
 
 
-@app.get("/")
-def root():
-    return {"message": "Guchenung-am Tea Inventory API"}
+@app.get("/health")
+def health():
+    return {"status": "ok"}
