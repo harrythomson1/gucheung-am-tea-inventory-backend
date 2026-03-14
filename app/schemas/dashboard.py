@@ -1,5 +1,6 @@
-from enums import PackagingType
 from pydantic import BaseModel
+
+from app.enums import PackagingType
 
 
 class DashboardTeaResponse(BaseModel):

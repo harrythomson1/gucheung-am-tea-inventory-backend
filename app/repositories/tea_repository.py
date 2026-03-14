@@ -29,11 +29,13 @@ class TeaRepository:
             select(
                 Tea.id,
                 Tea.name,
+                TeaVariant.packaging,
                 func.sum(StockTransaction.quantity_change).label("total_stock"),
             )
             .join(TeaVariant, TeaVariant.tea_id == Tea.id)
             .join(StockTransaction, StockTransaction.tea_variant_id == TeaVariant.id)
-            .group_by(Tea.id, Tea.name)
+            .group_by(Tea.id, Tea.name, TeaVariant.packaging)
+            .order_by(Tea.id, TeaVariant.packaging)
         )
         result = await self.db.execute(query)
         return result.mappings().all()
