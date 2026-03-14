@@ -1,8 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
+from app.auth.utils import require_admin
 from app.dependencies import get_teas_service
 from app.enums import FlushType, PackagingType
-from app.schemas import TeaDetailResponse, TeaResponse, TeaVariantStockResponse
+from app.schemas import (
+    CreateTeaRequest,
+    TeaDetailResponse,
+    TeaResponse,
+    TeaVariantStockResponse,
+)
 from app.services.tea_service import TeaService
 
 router = APIRouter()
@@ -38,3 +44,13 @@ async def get_stock_summary_by_id(
     if not stock_summary:
         raise HTTPException(status_code=404, detail="Stock summary not found")
     return stock_summary
+
+
+@router.post("/teas", status_code=status.HTTP_201_CREATED)
+async def create_tea(
+    tea_info: CreateTeaRequest,
+    _: dict = Depends(require_admin),
+    service: TeaService = Depends(get_teas_service),
+):
+    await service.create(tea_info=tea_info)
+    return None
