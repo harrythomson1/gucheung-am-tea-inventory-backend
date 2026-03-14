@@ -20,6 +20,7 @@ class PackagingType(enum.Enum):
     wing = "wing"
     gift = "gift"
     mixed = "mixed"
+    standard = "standard"
 
 
 class FlushType(enum.Enum):
