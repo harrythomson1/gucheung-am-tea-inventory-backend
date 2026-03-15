@@ -23,7 +23,6 @@ class TransactionService:
         self, transaction_info: CreateTransactionRequest, current_user: dict
     ) -> StockTransaction:
         if transaction_info.transaction_type == TransactionType.harvest:
-            breakpoint()
             return await self._create_harvest(
                 transaction_info=transaction_info, current_user=current_user
             )
