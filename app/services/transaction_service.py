@@ -76,7 +76,7 @@ class TransactionService:
         if current_stock + transaction_info.quantity_change < 0:
             raise HTTPException(status_code=400, detail="Insufficient stock")
         return await self.repository.create(
-            trasnaction_info=transaction_info,
-            variant_id=int(variant.id),
+            transaction_info=transaction_info,
+            variant_id=int(variant.id),  # type: ignore
             current_user=current_user,
-        )  # type: ignore
+        )
