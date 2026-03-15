@@ -59,9 +59,9 @@ class TransactionService:
         variant = await self.tea_variant_repository.find_or_create(transaction_info)
         transaction = await self.repository.create(
             transaction_info=transaction_info,
-            variant_id=int(variant.id),
+            variant_id=int(variant.id),  # type: ignore
             current_user=current_user,
-        )  # type: ignore
+        )
         return transaction
 
     async def _create_removal(
