@@ -34,6 +34,7 @@ class TeaDetailResponse(BaseModel):
 
 class TeaVariantStockResponse(BaseModel):
     id: int
+    tea_name: str
     packaging: PackagingType
     flush: FlushType
     harvest_year: int

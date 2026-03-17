@@ -56,10 +56,12 @@ class TeaRepository:
                 TeaVariant.harvest_year,
                 TeaVariant.weight_grams,
                 func.sum(StockTransaction.quantity_change).label("current_stock"),
+                Tea.name.label("tea_name"),
             )
             .join(StockTransaction, StockTransaction.tea_variant_id == TeaVariant.id)
+            .join(Tea, Tea.id == TeaVariant.tea_id)
             .where(TeaVariant.tea_id == tea_id)
-            .group_by(TeaVariant.id)
+            .group_by(TeaVariant.id, Tea.name)
         )
         if packaging:
             query = query.where(TeaVariant.packaging == packaging)
