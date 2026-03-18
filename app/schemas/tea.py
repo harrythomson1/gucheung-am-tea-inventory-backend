@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from app.enums import FlushType, PackagingType
 
@@ -46,3 +46,10 @@ class TeaVariantStockResponse(BaseModel):
 
 class CreateTeaRequest(BaseModel):
     name: str
+
+    @field_validator("name")
+    @classmethod
+    def name_must_not_be_empty(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("Tea name cannot be empty")
+        return v.strip()
