@@ -1,3 +1,4 @@
+from app.models.customer import Customer as Customer
 from app.models.stock_transaction import SalesChannelType as SalesChannelType
 from app.models.stock_transaction import StockTransaction as StockTransaction
 from app.models.stock_transaction import TransactionType as TransactionType
