@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from app.models import Customer
 
@@ -20,3 +21,12 @@ class CustomerRepository:
         query = query.offset(skip).limit(limit)
         result = await self.db.execute(query)
         return result.scalars().all()
+
+    async def get_by_id(self, id: int) -> Customer | None:
+        query = (
+            select(Customer)
+            .where(Customer.id == id)
+            .options(selectinload(Customer.stock_transactions))
+        )
+        result = await self.db.execute(query)
+        return result.scalars().first()
