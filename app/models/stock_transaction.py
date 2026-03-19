@@ -11,14 +11,13 @@ class StockTransaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     tea_variant_id = Column(Integer, ForeignKey("tea_variants.id"), nullable=False)
+    customer_id = Column(Integer, ForeignKey("customers.id"), nullable=True)
     quantity_change = Column(Integer, nullable=False)
     transaction_type = Column(
         Enum(TransactionType, name="transaction_type"), nullable=False
     )
     performed_by_id = Column(UUID(as_uuid=True), nullable=False)
     performed_by_name = Column(String, nullable=False)
-    buyer_name = Column(String, nullable=True)
-    buyer_phone = Column(String, nullable=True)
     sales_channel = Column(
         Enum(SalesChannelType, name="sales_channel_type"), nullable=True
     )
@@ -26,3 +25,4 @@ class StockTransaction(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     tea_variant = relationship("TeaVariant", back_populates="stock_transactions")
+    customer = relationship("Customer", back_populates="stock_transactions")
