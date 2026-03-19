@@ -2,6 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from app.models import Customer
+from app.schemas import UpdateCustomerRequest
 
 
 class CustomerRepository:
@@ -30,3 +31,18 @@ class CustomerRepository:
         )
         result = await self.db.execute(query)
         return result.scalars().first()
+
+    async def update(
+        self, id: int, update_data: UpdateCustomerRequest
+    ) -> Customer | None:
+        customer = await self.get_by_id(id)
+        if not customer:
+            return None
+
+        update_dict = update_data.model_dump(exclude_unset=True)
+        for key, value in update_dict.items():
+            setattr(customer, key, value)
+
+        await self.db.commit()
+        await self.db.refresh(customer)
+        return customer
