@@ -9,7 +9,7 @@ from app.schemas import (
     TeaResponse,
     TeaVariantStockResponse,
 )
-from app.services.tea_service import TeaService
+from app.services import TeaService
 
 router = APIRouter()
 

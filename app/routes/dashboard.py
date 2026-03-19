@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from app.auth.utils import get_current_user
 from app.dependencies import get_teas_service
 from app.schemas import DashboardTeaResponse
-from app.services.tea_service import TeaService
+from app.services import TeaService
 
 router = APIRouter()
 

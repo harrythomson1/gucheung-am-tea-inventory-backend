@@ -5,8 +5,7 @@ from app.core.database import get_db
 from app.repositories.tea_repository import TeaRepository
 from app.repositories.tea_variant_repository import TeaVariantRepository
 from app.repositories.transaction_repository import TransactionRepository
-from app.services.tea_service import TeaService
-from app.services.transaction_service import TransactionService
+from app.services import TeaService, TransactionService
 
 
 async def get_tea_repository(db: AsyncSession = Depends(get_db)):

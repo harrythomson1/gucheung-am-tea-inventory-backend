@@ -9,7 +9,7 @@ from app.auth.utils import get_current_user
 from app.dependencies import get_transaction_service
 from app.enums import TransactionType
 from app.schemas import ActivityFeedResponse, CreateTransactionRequest
-from app.services.transaction_service import TransactionService
+from app.services import TransactionService
 
 router = APIRouter()
 
