@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import dashboard, tea, transaction
+from app.routes import customer, dashboard, tea, transaction
 
 app = FastAPI()
 
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(tea.router)
 app.include_router(transaction.router)
 app.include_router(dashboard.router)
+app.include_router(customer.router)
 
 
 @app.get("/health")
