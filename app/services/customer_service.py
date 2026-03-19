@@ -1,6 +1,6 @@
 from app.models import Customer
 from app.repositories import CustomerRepository
-from app.schemas import UpdateCustomerRequest
+from app.schemas import CreateCustomerRequest, UpdateCustomerRequest
 
 
 class CustomerService:
@@ -19,3 +19,6 @@ class CustomerService:
         self, id: int, update_data: UpdateCustomerRequest
     ) -> Customer | None:
         return await self.repository.update(id=id, update_data=update_data)
+
+    async def create(self, customer_details: CreateCustomerRequest) -> Customer:
+        return await self.repository.create(customer_details=customer_details)
