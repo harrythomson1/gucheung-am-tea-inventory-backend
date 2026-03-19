@@ -18,6 +18,7 @@ class CustomerResponse(BaseModel):
     city: str
     address: str | None = None
     phone: str | None = None
+    notes: str | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -28,5 +29,6 @@ class UpdateCustomerRequest(BaseModel):
     city: str | None = None
     address: str | None = None
     phone: str | None = None
+    notes: str | None = None
 
     model_config = {"from_attributes": True}
