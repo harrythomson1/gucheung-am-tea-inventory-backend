@@ -12,13 +12,12 @@ class CreateTransactionRequest(BaseModel):
     transaction_type: TransactionType
     tea_id: int | None = None
     tea_variant_id: int | None = None
+    customer_id: int | None = None
     packaging: PackagingType | None = None
     flush: FlushType | None = None
     harvest_year: int | None = None
     weight_grams: int | None = None
     quantity_change: int
-    buyer_name: str | None = None
-    buyer_phone: str | None = None
     sales_channel: SalesChannelType | None = None
     notes: str | None = None
 
