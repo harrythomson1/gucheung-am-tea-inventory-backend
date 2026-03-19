@@ -21,3 +21,12 @@ class CustomerResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class UpdateCustomerRequest(BaseModel):
+    name: str | None = None
+    city: str | None = None
+    address: str | None = None
+    phone: str | None = None
+
+    model_config = {"from_attributes": True}
