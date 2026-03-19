@@ -1,3 +1,6 @@
+from app.repositories.customer_repository import (
+    CustomerRepository as CustomerRepository,
+)
 from app.repositories.tea_repository import TeaRepository as TeaRepository
 from app.repositories.tea_variant_repository import (
     TeaVariantRepository as TeaVariantRepository,
