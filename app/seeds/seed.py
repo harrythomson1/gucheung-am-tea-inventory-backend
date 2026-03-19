@@ -4,7 +4,7 @@ import os
 import uuid
 
 from app.core.database import SessionLocal, get_db
-from app.models import StockTransaction, Tea, TeaVariant
+from app.models import Customer, StockTransaction, Tea, TeaVariant
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -35,6 +35,19 @@ async def seed():
                 )
                 db.add(tea_variant)
 
+        with open(os.path.join(BASE_DIR, "customers.csv"), newline="") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                customer = Customer(
+                    id=int(row["id"]),
+                    name=row["name"],
+                    city=row["city"],
+                    address=row["address"] or None,
+                    phone=row["phone"] or None,
+                    notes=row["notes"] or None,
+                )
+                db.add(customer)
+
         with open(
             os.path.join(BASE_DIR, "stock_transactions.csv"), newline=""
         ) as csvfile:
@@ -47,8 +60,7 @@ async def seed():
                     transaction_type=row["transaction_type"],
                     performed_by_id=uuid.UUID(row["performed_by_id"]),
                     performed_by_name=row["performed_by_name"],
-                    buyer_name=row["buyer_name"] or None,
-                    buyer_phone=row["buyer_phone"] or None,
+                    customer_id=int(row["customer_id"]) if row["customer_id"] else None,
                     sales_channel=row["sales_channel"] or None,
                     notes=row["notes"] or None,
                 )
