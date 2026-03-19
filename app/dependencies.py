@@ -2,8 +2,13 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.repositories import TeaRepository, TeaVariantRepository, TransactionRepository
-from app.services import TeaService, TransactionService
+from app.repositories import (
+    CustomerRepository,
+    TeaRepository,
+    TeaVariantRepository,
+    TransactionRepository,
+)
+from app.services import CustomerService, TeaService, TransactionService
 
 
 async def get_tea_repository(db: AsyncSession = Depends(get_db)):
@@ -16,6 +21,10 @@ async def get_transaction_repository(db: AsyncSession = Depends(get_db)):
 
 async def get_tea_variant_repository(db: AsyncSession = Depends(get_db)):
     return TeaVariantRepository(db)
+
+
+async def get_customer_repository(db: AsyncSession = Depends(get_db)):
+    return CustomerRepository(db)
 
 
 async def get_teas_service(
@@ -34,3 +43,7 @@ async def get_transaction_service(
         tea_repository=tea_repository,
         tea_variant_repository=tea_variant_repository,
     )
+
+
+async def get_customer_service(customer_repository=Depends(get_customer_repository)):
+    return CustomerService(repository=customer_repository)
