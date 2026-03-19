@@ -1,4 +1,6 @@
 from app.schemas.activity import ActivityFeedResponse as ActivityFeedResponse
+from app.schemas.customer import CreateCustomerRequest as CreateCustomerRequest
+from app.schemas.customer import CustomerResponse as CustomerResponse
 from app.schemas.dashboard import DashboardTeaResponse as DashboardTeaResponse
 from app.schemas.tea import CreateTeaRequest as CreateTeaRequest
 from app.schemas.tea import TeaDetailResponse as TeaDetailResponse
