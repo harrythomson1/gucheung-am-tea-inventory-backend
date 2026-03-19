@@ -23,8 +23,7 @@ class TransactionRepository:
             transaction_type=transaction_info.transaction_type,
             performed_by_id=current_user.get("sub"),
             performed_by_name=current_user.get("user_metadata", {}).get("display_name"),
-            buyer_name=transaction_info.buyer_name,
-            buyer_phone=transaction_info.buyer_phone,
+            customer_id=transaction_info.customer_id,
             sales_channel=transaction_info.sales_channel,
             notes=transaction_info.notes,
         )
