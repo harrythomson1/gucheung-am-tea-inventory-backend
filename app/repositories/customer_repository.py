@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from app.models import Customer
-from app.schemas import UpdateCustomerRequest
+from app.schemas import CreateCustomerRequest, UpdateCustomerRequest
 
 
 class CustomerRepository:
@@ -43,6 +43,18 @@ class CustomerRepository:
         for key, value in update_dict.items():
             setattr(customer, key, value)
 
+        await self.db.commit()
+        await self.db.refresh(customer)
+        return customer
+
+    async def create(self, customer_details: CreateCustomerRequest) -> Customer:
+        customer = Customer(
+            name=customer_details.name,
+            city=customer_details.city,
+            address=customer_details.address,
+            phone=customer_details.phone,
+        )
+        self.db.add(customer)
         await self.db.commit()
         await self.db.refresh(customer)
         return customer
