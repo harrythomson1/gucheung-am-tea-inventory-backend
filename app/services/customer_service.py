@@ -1,5 +1,6 @@
 from app.models import Customer
 from app.repositories import CustomerRepository
+from app.schemas import UpdateCustomerRequest
 
 
 class CustomerService:
@@ -13,3 +14,8 @@ class CustomerService:
 
     async def get_by_id(self, id: int) -> Customer | None:
         return await self.repository.get_by_id(id)
+
+    async def update(
+        self, id: int, update_data: UpdateCustomerRequest
+    ) -> Customer | None:
+        return await self.repository.update(id=id, update_data=update_data)
