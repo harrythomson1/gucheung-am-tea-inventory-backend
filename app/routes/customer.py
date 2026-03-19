@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from app.auth.utils import get_current_user
 from app.dependencies import get_customer_service
-from app.schemas import CustomerResponse
+from app.schemas import CustomerResponse, UpdateCustomerRequest
 from app.services import CustomerService
 
 router = APIRouter()
@@ -27,6 +27,19 @@ async def get_by_id(
     service: CustomerService = Depends(get_customer_service),
 ):
     customer = await service.get_by_id(id=customer_id)
+    if not customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return customer
+
+
+@router.patch("/customers/{customer_id}", response_model=CustomerResponse)
+async def update_customer(
+    customer_id: int,
+    update_data: UpdateCustomerRequest,
+    _: dict = Depends(get_current_user),
+    service: CustomerService = Depends(get_customer_service),
+):
+    customer = await service.update(id=customer_id, update_data=update_data)
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")
     return customer
