@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from app.auth.utils import get_current_user
 from app.dependencies import get_customer_service
@@ -18,3 +18,15 @@ async def get_all(
 ):
     customers = await service.get_all(skip=skip, limit=limit, search=search)
     return customers
+
+
+@router.get("/customers/{customer_id}", response_model=CustomerResponse)
+async def get_by_id(
+    customer_id: int,
+    _: dict = Depends(get_current_user),
+    service: CustomerService = Depends(get_customer_service),
+):
+    customer = await service.get_by_id(id=customer_id)
+    if not customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return customer
