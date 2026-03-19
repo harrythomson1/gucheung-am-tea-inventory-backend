@@ -45,7 +45,7 @@ class TransactionRepository:
                 StockTransaction.quantity_change,
                 StockTransaction.transaction_type,
                 StockTransaction.sales_channel,
-                StockTransaction.buyer_name,
+                StockTransaction.customer_id,
                 StockTransaction.created_at,
                 StockTransaction.performed_by_name,
                 StockTransaction.notes,
@@ -69,14 +69,13 @@ class TransactionRepository:
         end_date: datetime | None = None,
         transaction_type: TransactionType | None = None,
         tea_name: str | None = None,
-        buyer_name: str | None = None,
     ) -> list[ActivityFeedResponse]:
         query = (
             select(
                 StockTransaction.quantity_change,
                 StockTransaction.transaction_type,
                 StockTransaction.sales_channel,
-                StockTransaction.buyer_name,
+                StockTransaction.customer_id,
                 StockTransaction.created_at,
                 StockTransaction.performed_by_name,
                 StockTransaction.notes,
@@ -94,8 +93,6 @@ class TransactionRepository:
             query = query.where(StockTransaction.transaction_type == transaction_type)
         if tea_name:
             query = query.where(Tea.name.ilike(f"%{tea_name}%"))
-        if buyer_name:
-            query = query.where(StockTransaction.buyer_name.ilike(f"%{buyer_name}%"))
         if start_date:
             query = query.where(StockTransaction.created_at >= start_date)
         if end_date:

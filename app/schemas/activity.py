@@ -9,7 +9,6 @@ class ActivityFeedResponse(BaseModel):
     quantity_change: int
     transaction_type: TransactionType
     performed_by_name: str
-    buyer_name: str | None = None
     sales_channel: SalesChannelType | None = None
     notes: str | None = None
     packaging: PackagingType

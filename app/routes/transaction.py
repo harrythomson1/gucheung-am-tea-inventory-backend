@@ -42,14 +42,12 @@ async def export_transactions_as_csv(
     end_date: datetime | None = None,
     transaction_type: TransactionType | None = None,
     tea_name: str | None = None,
-    buyer_name: str | None = None,
 ):
     transactions = await service.export_transactions_as_csv(
         start_date=start_date,
         end_date=end_date,
         transaction_type=transaction_type,
         tea_name=tea_name,
-        buyer_name=buyer_name,
     )
 
     output = io.StringIO()
@@ -59,7 +57,7 @@ async def export_transactions_as_csv(
             "quantity_change",
             "transaction_type",
             "sales_channel",
-            "buyer_name",
+            "customer_id",
             "created_at",
             "performed_by_name",
             "notes",

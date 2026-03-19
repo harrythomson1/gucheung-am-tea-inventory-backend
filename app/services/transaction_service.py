@@ -40,14 +40,12 @@ class TransactionService:
         end_date: datetime | None = None,
         transaction_type: TransactionType | None = None,
         tea_name: str | None = None,
-        buyer_name: str | None = None,
     ) -> list[ActivityFeedResponse]:
         return await self.repository.export_transactions_as_csv(
             start_date=start_date,
             end_date=end_date,
             transaction_type=transaction_type,
             tea_name=tea_name,
-            buyer_name=buyer_name,
         )
 
     async def _create_harvest(
