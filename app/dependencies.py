@@ -2,9 +2,7 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.repositories.tea_repository import TeaRepository
-from app.repositories.tea_variant_repository import TeaVariantRepository
-from app.repositories.transaction_repository import TransactionRepository
+from app.repositories import TeaRepository, TeaVariantRepository, TransactionRepository
 from app.services import TeaService, TransactionService
 
 
