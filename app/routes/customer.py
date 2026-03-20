@@ -45,11 +45,12 @@ async def update_customer(
     return customer
 
 
-@router.post("/customers", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/customers", status_code=status.HTTP_201_CREATED, response_model=CustomerResponse
+)
 async def create_customer(
     customer_details: CreateCustomerRequest,
     _: dict = Depends(get_current_user),
     service: CustomerService = Depends(get_customer_service),
 ):
-    await service.create(customer_details=customer_details)
-    return None
+    return await service.create(customer_details=customer_details)
