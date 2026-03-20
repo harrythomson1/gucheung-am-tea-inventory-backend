@@ -3,6 +3,8 @@ import csv
 import os
 import uuid
 
+from sqlalchemy import text
+
 from app.core.database import SessionLocal, get_db
 from app.models import Customer, StockTransaction, Tea, TeaVariant
 
@@ -65,6 +67,23 @@ async def seed():
                     notes=row["notes"] or None,
                 )
                 db.add(stock_transaction)
+        await db.commit()
+        await db.execute(
+            text("SELECT setval('teas_id_seq', (SELECT MAX(id) FROM teas))")
+        )
+        await db.execute(
+            text(
+                "SELECT setval('tea_variants_id_seq', (SELECT MAX(id) FROM tea_variants))"
+            )
+        )
+        await db.execute(
+            text("SELECT setval('customers_id_seq', (SELECT MAX(id) FROM customers))")
+        )
+        await db.execute(
+            text(
+                "SELECT setval('stock_transactions_id_seq', (SELECT MAX(id) FROM stock_transactions))"
+            )
+        )
         await db.commit()
 
 
