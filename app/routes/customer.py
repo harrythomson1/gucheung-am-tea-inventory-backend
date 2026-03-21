@@ -1,9 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.auth.utils import get_current_user
-from app.dependencies import get_customer_service
-from app.schemas import CreateCustomerRequest, CustomerResponse, UpdateCustomerRequest
-from app.services import CustomerService
+from app.dependencies import get_customer_service, get_transaction_service
+from app.schemas import (
+    ActivityFeedResponse,
+    CreateCustomerRequest,
+    CustomerResponse,
+    UpdateCustomerRequest,
+)
+from app.services import CustomerService, TransactionService
 
 router = APIRouter()
 
@@ -54,3 +59,14 @@ async def create_customer(
     service: CustomerService = Depends(get_customer_service),
 ):
     return await service.create(customer_details=customer_details)
+
+
+@router.get(
+    "/customers/{customer_id}/transactions", response_model=list[ActivityFeedResponse]
+)
+async def get_transactions_by_customer_id(
+    customer_id: int,
+    _: dict = Depends(get_current_user),
+    service: TransactionService = Depends(get_transaction_service),
+):
+    return await service.get_by_customer_id(customer_id=customer_id)

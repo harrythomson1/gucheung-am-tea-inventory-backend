@@ -48,6 +48,9 @@ class TransactionService:
             tea_name=tea_name,
         )
 
+    async def get_by_customer_id(self, customer_id: int) -> list[ActivityFeedResponse]:
+        return await self.repository.get_by_customer_id(customer_id=customer_id)
+
     async def _create_harvest(
         self, transaction_info: CreateTransactionRequest, current_user: dict
     ) -> StockTransaction:

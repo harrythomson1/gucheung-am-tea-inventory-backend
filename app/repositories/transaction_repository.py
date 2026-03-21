@@ -99,3 +99,27 @@ class TransactionRepository:
             query = query.where(StockTransaction.created_at <= end_date)
         result = await self.db.execute(query)
         return result.mappings().all()
+
+    async def get_by_customer_id(self, customer_id: int) -> list[ActivityFeedResponse]:
+        query = (
+            select(
+                StockTransaction.quantity_change,
+                StockTransaction.transaction_type,
+                StockTransaction.sales_channel,
+                StockTransaction.customer_id,
+                StockTransaction.created_at,
+                StockTransaction.performed_by_name,
+                StockTransaction.notes,
+                TeaVariant.packaging,
+                TeaVariant.flush,
+                TeaVariant.harvest_year,
+                TeaVariant.weight_grams,
+                Tea.name.label("tea_name"),
+            )
+            .join(TeaVariant, TeaVariant.id == StockTransaction.tea_variant_id)
+            .join(Tea, Tea.id == TeaVariant.tea_id)
+            .where(StockTransaction.customer_id == customer_id)
+            .order_by(StockTransaction.created_at.desc())
+        )
+        result = await self.db.execute(query)
+        return result.mappings().all()
