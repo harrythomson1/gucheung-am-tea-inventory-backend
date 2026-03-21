@@ -59,8 +59,10 @@ async def create_tea(
     _: dict = Depends(require_admin),
     service: TeaService = Depends(get_teas_service),
 ):
-    await service.create(tea_info=tea_info)
-    return None
+    try:
+        return await service.create(tea_info=tea_info)
+    except ValueError as e:
+        raise HTTPException(status_code=409, detail=str(e)) from e
 
 
 @router.delete("/teas/{tea_id}", status_code=204)

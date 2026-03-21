@@ -84,6 +84,13 @@ class TeaRepository:
             await self.db.refresh(existing)
             return existing
 
+        query = select(Tea).where(Tea.name == tea_info.name, Tea.deleted.is_(False))
+        result = await self.db.execute(query)
+        existing = result.scalars().first()
+
+        if existing:
+            raise ValueError(f"Tea '{tea_info.name}' already exists")
+
         tea = Tea(name=tea_info.name)
         self.db.add(tea)
         await self.db.commit()
