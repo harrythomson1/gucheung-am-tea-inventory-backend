@@ -74,6 +74,16 @@ class TeaRepository:
         return result.mappings().all()
 
     async def create(self, tea_info: CreateTeaRequest) -> Tea:
+        query = select(Tea).where(Tea.name == tea_info.name, Tea.deleted.is_(True))
+        result = await self.db.execute(query)
+        existing = result.scalars().first()
+
+        if existing:
+            existing.deleted = False  # type: ignore
+            await self.db.commit()
+            await self.db.refresh(existing)
+            return existing
+
         tea = Tea(name=tea_info.name)
         self.db.add(tea)
         await self.db.commit()
