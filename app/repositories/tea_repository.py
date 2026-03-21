@@ -85,7 +85,7 @@ class TeaRepository:
         if not tea:
             return None
 
-        tea.deleted = True
+        tea.deleted = True  # type: ignore
 
         await self.db.commit()
         await self.db.refresh(tea)
