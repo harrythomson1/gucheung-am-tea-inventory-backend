@@ -61,3 +61,15 @@ async def create_tea(
 ):
     await service.create(tea_info=tea_info)
     return None
+
+
+@router.delete("/teas/{tea_id}", status_code=204)
+async def soft_delete(
+    tea_id: int,
+    _: dict = Depends(get_current_user),
+    service: TeaService = Depends(get_teas_service),
+):
+    tea = await service.soft_delete(id=tea_id)
+    if not tea:
+        raise HTTPException(status_code=404, detail="Tea not found")
+    return None

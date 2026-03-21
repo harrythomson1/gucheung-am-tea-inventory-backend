@@ -79,3 +79,14 @@ class TeaRepository:
         await self.db.commit()
         await self.db.refresh(tea)
         return tea
+
+    async def soft_delete(self, id: int) -> Tea | None:
+        tea = await self.get_by_id(id=id)
+        if not tea:
+            return None
+
+        tea.deleted = True
+
+        await self.db.commit()
+        await self.db.refresh(tea)
+        return tea

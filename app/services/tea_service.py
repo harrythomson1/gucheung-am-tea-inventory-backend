@@ -30,3 +30,6 @@ class TeaService:
 
     async def create(self, tea_info: CreateTeaRequest) -> Tea:
         return await self.repository.create(tea_info=tea_info)
+
+    async def soft_delete(self, id: int) -> Tea | None:
+        return await self.repository.soft_delete(id=id)
