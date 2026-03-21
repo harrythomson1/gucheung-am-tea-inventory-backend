@@ -15,7 +15,7 @@ class TeaRepository:
         self.db = db
 
     async def get_all(self) -> list[Tea]:
-        query = select(Tea)
+        query = select(Tea).where(Tea.deleted.is_(False))
         result = await self.db.execute(query)
         return result.scalars().all()
 
