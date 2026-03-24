@@ -31,8 +31,10 @@ class TransactionService:
                 transaction_info=transaction_info, current_user=current_user
             )
 
-    async def get_latest_transactions(self) -> list[ActivityFeedResponse]:
-        return await self.repository.get_latest_transactions()
+    async def get_latest_transactions(
+        self, tea_id: int | None = None
+    ) -> list[ActivityFeedResponse]:
+        return await self.repository.get_latest_transactions(tea_id=tea_id)
 
     async def export_transactions_as_csv(
         self,

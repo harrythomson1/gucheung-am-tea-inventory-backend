@@ -39,7 +39,9 @@ class TransactionRepository:
         result = await self.db.execute(query)
         return result.scalar() or 0
 
-    async def get_latest_transactions(self) -> list[ActivityFeedResponse]:
+    async def get_latest_transactions(
+        self, tea_id: int | None = None
+    ) -> list[ActivityFeedResponse]:
         query = (
             select(
                 StockTransaction.quantity_change,
@@ -60,6 +62,10 @@ class TransactionRepository:
             .order_by(StockTransaction.created_at.desc())
             .limit(20)
         )
+
+        if tea_id is not None:
+            query = query.where(Tea.id == tea_id)
+
         result = await self.db.execute(query)
         return result.mappings().all()
 

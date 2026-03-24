@@ -30,8 +30,9 @@ async def create_transaction(
 async def get_latest_transactions(
     _: dict = Depends(get_current_user),
     service: TransactionService = Depends(get_transaction_service),
+    tea_id: int | None = None,
 ):
-    return await service.get_latest_transactions()
+    return await service.get_latest_transactions(tea_id=tea_id)
 
 
 @router.get("/transactions/export")
