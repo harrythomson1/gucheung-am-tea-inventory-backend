@@ -1,4 +1,12 @@
-from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, func
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Integer,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -7,6 +15,16 @@ from app.enums import FlushType, PackagingType
 
 class TeaVariant(Base):
     __tablename__ = "tea_variants"
+    __table_args__ = (
+        UniqueConstraint(
+            "tea,id",
+            "packaging",
+            "flush",
+            "harvest_year",
+            "weight_grams",
+            name="uq_tea_variant",
+        ),
+    )
 
     id = Column(Integer, primary_key=True, index=True)
     tea_id = Column(Integer, ForeignKey("teas.id"), nullable=False)

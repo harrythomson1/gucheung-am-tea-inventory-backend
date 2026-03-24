@@ -1,4 +1,12 @@
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, func
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    Integer,
+    String,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -6,6 +14,7 @@ from app.core.database import Base
 
 class Tea(Base):
     __tablename__ = "teas"
+    __table_args__ = (UniqueConstraint("name", name="uq_teas_name"),)
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
