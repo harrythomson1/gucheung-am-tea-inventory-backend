@@ -10,7 +10,7 @@ async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     token = credentials.credentials
-    return verify_access_token(token)
+    return await verify_access_token(token)
 
 
 async def require_admin(payload: dict = Depends(get_current_user)):
