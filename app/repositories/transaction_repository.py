@@ -22,7 +22,8 @@ class TransactionRepository:
             quantity_change=transaction_info.quantity_change,
             transaction_type=transaction_info.transaction_type,
             performed_by_id=current_user.get("sub"),
-            performed_by_name=current_user.get("user_metadata", {}).get("display_name"),
+            performed_by_name=current_user.get("user_metadata", {}).get("display_name")
+            or "Unknown",
             customer_id=transaction_info.customer_id,
             sales_channel=transaction_info.sales_channel,
             notes=transaction_info.notes,
