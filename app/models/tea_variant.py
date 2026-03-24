@@ -17,7 +17,7 @@ class TeaVariant(Base):
     __tablename__ = "tea_variants"
     __table_args__ = (
         UniqueConstraint(
-            "tea,id",
+            "tea_id",
             "packaging",
             "flush",
             "harvest_year",
