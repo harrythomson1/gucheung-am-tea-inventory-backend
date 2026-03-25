@@ -104,7 +104,10 @@ class TransactionRepository:
         if start_date:
             query = query.where(StockTransaction.created_at >= start_date)
         if end_date:
-            query = query.where(StockTransaction.created_at <= end_date)
+            query = query.where(
+                StockTransaction.created_at
+                <= end_date.replace(hour=23, minute=59, second=59)
+            )
         result = await self.db.execute(query)
         return result.mappings().all()
 
