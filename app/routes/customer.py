@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.auth.utils import get_current_user
 from app.dependencies import get_customer_service, get_transaction_service
@@ -17,8 +17,8 @@ router = APIRouter()
 async def get_all(
     _: dict = Depends(get_current_user),
     service: CustomerService = Depends(get_customer_service),
-    skip: int = 0,
-    limit: int = 20,
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=20, ge=1, le=100),
     search: str | None = None,
 ):
     customers = await service.get_all(skip=skip, limit=limit, search=search)
