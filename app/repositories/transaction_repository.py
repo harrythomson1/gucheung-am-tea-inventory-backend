@@ -61,11 +61,12 @@ class TransactionRepository:
             .join(TeaVariant, TeaVariant.id == StockTransaction.tea_variant_id)
             .join(Tea, Tea.id == TeaVariant.tea_id)
             .order_by(StockTransaction.created_at.desc())
-            .limit(20)
         )
 
         if tea_id is not None:
             query = query.where(Tea.id == tea_id)
+
+        query = query.limit(20)
 
         result = await self.db.execute(query)
         return result.mappings().all()
