@@ -27,7 +27,7 @@ async def create_transaction(
 
 @router.get("/transactions", response_model=list[ActivityFeedResponse])
 async def get_latest_transactions(
-    _: dict = Depends(require_admin),
+    _: dict = Depends(get_current_user),
     service: TransactionService = Depends(get_transaction_service),
     tea_id: int | None = None,
 ):
@@ -36,7 +36,7 @@ async def get_latest_transactions(
 
 @router.get("/transactions/export")
 async def export_transactions_as_csv(
-    _: dict = Depends(get_current_user),
+    _: dict = Depends(require_admin),
     service: TransactionService = transaction_service_dependency,
     start_date: datetime | None = None,
     end_date: datetime | None = None,
