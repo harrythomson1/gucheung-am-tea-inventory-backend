@@ -42,12 +42,7 @@ async def get_stock_summary_by_id(
     harvest_year: int | None = None,
     service: TeaService = Depends(get_teas_service),
 ):
-    stock_summary = await service.get_stock_summary_by_id(
-        tea_id, packaging, flush, harvest_year
-    )
-    if not stock_summary:
-        raise HTTPException(status_code=404, detail="Stock summary not found")
-    return stock_summary
+    return await service.get_stock_summary_by_id(tea_id, packaging, flush, harvest_year)
 
 
 @router.post("/teas", status_code=status.HTTP_201_CREATED)
