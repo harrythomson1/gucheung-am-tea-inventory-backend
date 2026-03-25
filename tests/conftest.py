@@ -5,6 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from app.core.config import DATABASE_URL
 from app.core.database import Base, get_db
 from app.main import app
+from app.repositories import TeaRepository, TeaVariantRepository, TransactionRepository
+from app.services import TransactionService
 
 TEST_DATABASE_URL = DATABASE_URL.replace(
     "gucheung_am_inventory", "gucheung_am_inventory_test"
@@ -16,7 +18,7 @@ TestSessionLocal = async_sessionmaker(
 )
 
 
-@pytest_asyncio.fixture(scope="session", autouse=True)
+@pytest_asyncio.fixture(autouse=True)
 async def setup_database():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -33,7 +35,7 @@ async def db_session():
 
 
 @pytest_asyncio.fixture
-async def client(db_session):
+async def client(db_session: AsyncSession):
     async def override_get_db():
         yield db_session
 
@@ -43,3 +45,12 @@ async def client(db_session):
     ) as ac:
         yield ac
     app.dependency_overrides.clear()
+
+
+@pytest_asyncio.fixture
+async def service(db_session: AsyncSession):
+    return TransactionService(
+        repository=TransactionRepository(db_session),
+        tea_repository=TeaRepository(db_session),
+        tea_variant_repository=TeaVariantRepository(db_session),
+    )
