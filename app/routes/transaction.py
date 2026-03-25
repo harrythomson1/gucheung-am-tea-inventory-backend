@@ -22,8 +22,7 @@ async def create_transaction(
     current_user: dict = Depends(get_current_user),
     service: TransactionService = transaction_service_dependency,
 ):
-    await service.create(transaction_info, current_user)
-    return None
+    return await service.create(transaction_info, current_user)
 
 
 @router.get("/transactions", response_model=list[ActivityFeedResponse])
