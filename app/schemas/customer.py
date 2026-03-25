@@ -8,6 +8,7 @@ class CreateCustomerRequest(BaseModel):
     city: str
     address: str | None = None
     phone: str | None = None
+    notes: str | None = None
 
     model_config = {"from_attributes": True}
 

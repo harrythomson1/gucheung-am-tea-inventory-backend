@@ -48,6 +48,7 @@ class CustomerRepository:
             city=customer_details.city,
             address=customer_details.address,
             phone=customer_details.phone,
+            notes=customer_details.notes,
         )
         self.db.add(customer)
         await self.db.commit()
