@@ -56,6 +56,10 @@ class TransactionService:
     async def _create_harvest(
         self, transaction_info: CreateTransactionRequest, current_user: dict
     ) -> StockTransaction:
+        if transaction_info.quantity_change <= 0:
+            raise HTTPException(
+                status_code=400, detail="Harvest quantity must be positive"
+            )
         tea = await self.tea_repository.get_by_id(int(transaction_info.tea_id))  # type: ignore
         if not tea:
             raise HTTPException(status_code=404, detail="Tea not found")
@@ -70,6 +74,10 @@ class TransactionService:
     async def _create_removal(
         self, transaction_info: CreateTransactionRequest, current_user: dict
     ) -> StockTransaction:
+        if transaction_info.quantity_change > 0:
+            raise HTTPException(
+                status_code=400, detail="Removal quantity must be negative"
+            )
         variant = await self.tea_variant_repository.get_by_id(
             int(transaction_info.tea_variant_id)  # type: ignore
         )
