@@ -93,3 +93,33 @@ async def test_removal_lowers_current_stock_on_tea_variant(
     repo = TransactionRepository(db_session)
     current_stock = await repo.get_current_stock(tea_variant.id)  # type: ignore
     assert current_stock == 5
+
+
+async def test_harvest_raises_current_stock_on_tea_variant(
+    service: TransactionService,
+    tea_variant: TeaVariant,
+    db_session: AsyncSession,
+):
+    harvest_request = CreateTransactionRequest(
+        tea_variant_id=tea_variant.id,  # type: ignore
+        quantity_change=10,
+        transaction_type=TransactionType.harvest,
+        tea_id=tea_variant.tea_id,  # type: ignore
+        packaging=PackagingType.silver,
+        flush=FlushType.first,
+        harvest_year=2024,
+        weight_grams=40,
+    )
+    await service._create_harvest(
+        transaction_info=harvest_request,
+        current_user={
+            "sub": "00000000-0000-0000-0000-000000000001",
+            "user_metadata": {"display_name": "Test"},
+        },
+    )
+
+    from app.repositories import TransactionRepository
+
+    repo = TransactionRepository(db_session)
+    current_stock = await repo.get_current_stock(tea_variant.id)  # type: ignore
+    assert current_stock == 10
