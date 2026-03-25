@@ -18,10 +18,7 @@ router = APIRouter()
 async def get_all_teas(
     _: dict = Depends(get_current_user), service: TeaService = Depends(get_teas_service)
 ):
-    teas = await service.get_all()
-    if not teas:
-        raise HTTPException(status_code=404, detail="No teas found")
-    return teas
+    return await service.get_all()
 
 
 @router.get("/teas/{tea_id}", response_model=TeaDetailResponse)
