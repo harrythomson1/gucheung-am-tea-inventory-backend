@@ -5,7 +5,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import StreamingResponse
 
-from app.auth.utils import get_current_user
+from app.auth.utils import get_current_user, require_admin
 from app.dependencies import get_transaction_service
 from app.enums import TransactionType
 from app.schemas import ActivityFeedResponse, CreateTransactionRequest
@@ -27,7 +27,7 @@ async def create_transaction(
 
 @router.get("/transactions", response_model=list[ActivityFeedResponse])
 async def get_latest_transactions(
-    _: dict = Depends(get_current_user),
+    _: dict = Depends(require_admin),
     service: TransactionService = Depends(get_transaction_service),
     tea_id: int | None = None,
 ):
