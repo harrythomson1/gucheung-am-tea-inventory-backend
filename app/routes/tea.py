@@ -60,7 +60,7 @@ async def create_tea(
 @router.delete("/teas/{tea_id}", status_code=204)
 async def soft_delete(
     tea_id: int,
-    _: dict = Depends(get_current_user),
+    _: dict = Depends(require_admin),
     service: TeaService = Depends(get_teas_service),
 ):
     tea = await service.soft_delete(id=tea_id)
