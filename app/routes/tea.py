@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.exc import IntegrityError
 
 from app.auth.utils import get_current_user, require_admin
 from app.dependencies import get_teas_service
@@ -53,8 +54,10 @@ async def create_tea(
 ):
     try:
         return await service.create(tea_info=tea_info)
-    except ValueError as e:
-        raise HTTPException(status_code=409, detail=str(e)) from e
+    except IntegrityError as e:
+        raise HTTPException(
+            status_code=409, detail="A tea with this name already exists"
+        ) from e
 
 
 @router.delete("/teas/{tea_id}", status_code=204)
