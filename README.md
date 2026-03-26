@@ -34,7 +34,20 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Architecture
 
+This project uses a route, service and repository architecture.
+
+### Route
+Here is the entry point for the API where you can set HTTP routes
+
+### Service
+These classes sit between the routes and repositories. They contain core business logic for the application and orchestrate the data coming into and going out of them.
+
+### Repositories
+These act as wrappers around the database. In here you will find all the ORM queries that make gathering data possible.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
