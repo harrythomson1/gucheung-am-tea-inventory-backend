@@ -96,12 +96,51 @@ async def test_removal_lowers_current_stock_on_tea_variant(
     assert current_stock == 5
 
 
-def test_removal_raises_validation_error_when_value_is_positive():
+def test_sale_raises_validation_error_when_value_is_positive():
     with pytest.raises(ValidationError) as e:
         CreateTransactionRequest(
             tea_variant_id=1,
             quantity_change=5,
             transaction_type=TransactionType.sale,
+        )
+    assert (
+        e.value.errors()[0]["msg"]
+        == "Value error, quantity_change must be negative for non-harvest transactions"
+    )
+
+
+def test_ceremony_raises_validation_error_when_value_is_positive():
+    with pytest.raises(ValidationError) as e:
+        CreateTransactionRequest(
+            tea_variant_id=1,
+            quantity_change=5,
+            transaction_type=TransactionType.ceremony,
+        )
+    assert (
+        e.value.errors()[0]["msg"]
+        == "Value error, quantity_change must be negative for non-harvest transactions"
+    )
+
+
+def test_damage_raises_validation_error_when_value_is_positive():
+    with pytest.raises(ValidationError) as e:
+        CreateTransactionRequest(
+            tea_variant_id=1,
+            quantity_change=5,
+            transaction_type=TransactionType.damaged,
+        )
+    assert (
+        e.value.errors()[0]["msg"]
+        == "Value error, quantity_change must be negative for non-harvest transactions"
+    )
+
+
+def test_donation_raises_validation_error_when_value_is_positive():
+    with pytest.raises(ValidationError) as e:
+        CreateTransactionRequest(
+            tea_variant_id=1,
+            quantity_change=5,
+            transaction_type=TransactionType.donation,
         )
     assert (
         e.value.errors()[0]["msg"]
