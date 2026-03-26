@@ -105,6 +105,20 @@ def test_removal_raises_validation_error_when_value_is_positive():
         )
 
 
+def test_harvest_raises_validation_error_when_value_is_negative():
+    with pytest.raises(ValidationError):
+        CreateTransactionRequest(
+            tea_variant_id=1,
+            quantity_change=-5,
+            transaction_type=TransactionType.harvest,
+            tea_id=1,
+            packaging=PackagingType.silver,
+            flush=FlushType.first,
+            harvest_year=2024,
+            weight_grams=40,
+        )
+
+
 async def test_harvest_raises_current_stock_on_tea_variant(
     service: TransactionService,
     tea_variant: TeaVariant,
