@@ -105,6 +105,15 @@ ALGORITHM=ES256
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Tests
+
+Make sure Docker is running before running tests, as they require the test database.
+```
+pytest
+```
+Currently the test coverage consists of integration tests for the core business logic in `transaction_service`. Feel free to add further coverage as you see fit.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- ROADMAP -->
 ## Roadmap
 
