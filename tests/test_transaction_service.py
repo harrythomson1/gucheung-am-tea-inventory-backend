@@ -1,6 +1,7 @@
 import pytest
 import pytest_asyncio
 from fastapi import HTTPException
+from pydantic_core import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.enums import FlushType, PackagingType, TransactionType
@@ -93,6 +94,15 @@ async def test_removal_lowers_current_stock_on_tea_variant(
     repo = TransactionRepository(db_session)
     current_stock = await repo.get_current_stock(tea_variant.id)  # type: ignore
     assert current_stock == 5
+
+
+def test_removal_raises_validation_error_when_value_is_positive():
+    with pytest.raises(ValidationError):
+        CreateTransactionRequest(
+            tea_variant_id=1,
+            quantity_change=5,
+            transaction_type=TransactionType.sale,
+        )
 
 
 async def test_harvest_raises_current_stock_on_tea_variant(
