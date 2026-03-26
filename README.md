@@ -11,10 +11,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Whilst I was volunteering in Gucheongam temple in Gurye-gun in South Korea I approached the manager of the temple asking if they has any techology they would like built. She asked if I could build an inventory management for the tea they sell which is what you have here.
+Whilst I was volunteering in Gucheongam temple in Gurye-gun in South Korea I approached the manager of the temple asking if they has any technology they would like built. She asked if I could build an inventory management for the tea they sell which is what you have here.
 
-Propblems this solves:
-* Allows accurate tracking off sales with an append only ledger
+Problems this solves:
+* Allows accurate tracking of sales with an append only ledger
 * Prevents old stock going unsold as it isn't visible
 * Tracks sales by customer
 * Easy stock visualisation 
@@ -61,7 +61,7 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    docker-compose up -d
    ```
-4. Copy and fill in env vairables
+4. Copy and fill in env variables
    ```sh
    cp .env.example .env
    ```
@@ -96,7 +96,7 @@ ALGORITHM=ES256
 ## Roadmap
 
 - [ ] Barcode/QR scanning for remove stock form
-- [ ] Conversion feature to convert silver packages into wing or gift packagers
+- [ ] Conversion feature to convert silver packages into wing or gift packages
 - [ ] Password reset UI
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
