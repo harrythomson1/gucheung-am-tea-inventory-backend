@@ -44,13 +44,13 @@ async def test_removal_raises_400_when_insufficient_stock(
         await service._create_removal(
             transaction_info=request,
             current_user={
-                "sub": "test-user",
+                "sub": "00000000-0000-0000-0000-000000000001",
                 "user_metadata": {"display_name": "Test"},
             },
         )
 
     assert exc_info.value.status_code == 400
-    assert "stock" in exc_info.value.detail.lower()
+    assert exc_info.value.detail == "Insufficient stock"
 
 
 async def test_removal_lowers_current_stock_on_tea_variant(
