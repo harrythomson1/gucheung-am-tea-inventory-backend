@@ -6,7 +6,9 @@ from pydantic import BaseModel
 class CreateCustomerRequest(BaseModel):
     name: str
     city: str
-    address: str | None = None
+    address_1: str | None = None
+    address_2: str | None = None
+    postcode: str | None = None
     phone: str | None = None
     notes: str | None = None
 
@@ -17,7 +19,9 @@ class CustomerResponse(BaseModel):
     id: int
     name: str
     city: str
-    address: str | None = None
+    address_1: str | None = None
+    address_2: str | None = None
+    postcode: str | None = None
     phone: str | None = None
     notes: str | None = None
     created_at: datetime
@@ -28,7 +32,9 @@ class CustomerResponse(BaseModel):
 class UpdateCustomerRequest(BaseModel):
     name: str | None = None
     city: str | None = None
-    address: str | None = None
+    address_1: str | None = None
+    address_2: str | None = None
+    postcode: str | None = None
     phone: str | None = None
     notes: str | None = None
 

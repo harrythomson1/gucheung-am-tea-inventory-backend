@@ -46,7 +46,9 @@ class CustomerRepository:
         customer = Customer(
             name=customer_details.name,
             city=customer_details.city,
-            address=customer_details.address,
+            address_1=customer_details.address_1,
+            address_2=customer_details.address_2,
+            postcode=customer_details.postcode,
             phone=customer_details.phone,
             notes=customer_details.notes,
         )
