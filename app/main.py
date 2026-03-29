@@ -23,5 +23,6 @@ app.include_router(customer.router)
 
 
 @app.get("/health")
+@app.head("/health")
 def health():
     return {"status": "ok"}
