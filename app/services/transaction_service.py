@@ -5,7 +5,11 @@ from fastapi import HTTPException
 from app.enums import TransactionType
 from app.models import StockTransaction
 from app.repositories import TeaRepository, TeaVariantRepository, TransactionRepository
-from app.schemas import ActivityFeedResponse, CreateTransactionRequest
+from app.schemas import (
+    ActivityFeedResponse,
+    CreateTransactionRequest,
+    RecentlyRemovedResponse,
+)
 
 
 class TransactionService:
@@ -35,6 +39,9 @@ class TransactionService:
         self, tea_id: int | None = None
     ) -> list[ActivityFeedResponse]:
         return await self.repository.get_latest_transactions(tea_id=tea_id)
+
+    async def get_recent_removal_variants(self) -> list[RecentlyRemovedResponse]:
+        return await self.repository.get_recent_removal_variants()
 
     async def export_transactions_as_csv(
         self,
