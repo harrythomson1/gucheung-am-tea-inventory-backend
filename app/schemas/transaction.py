@@ -50,3 +50,13 @@ class CreateTransactionRequest(BaseModel):
                     "quantity_change must be negative for non-harvest transactions"
                 )
         return self
+
+
+class RecentlyRemovedResponse(BaseModel):
+    tea_name: str
+    harvest_year: int
+    packaging: PackagingType
+    flush: FlushType
+    weight_grams: int
+
+    model_config = {"from_attributes": True}
