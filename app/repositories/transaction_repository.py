@@ -4,7 +4,11 @@ from sqlalchemy import func, select
 
 from app.enums import TransactionType
 from app.models import StockTransaction, Tea, TeaVariant
-from app.schemas import ActivityFeedResponse, CreateTransactionRequest
+from app.schemas import (
+    ActivityFeedResponse,
+    CreateTransactionRequest,
+    RecentlyRemovedResponse,
+)
 
 
 class TransactionRepository:
@@ -67,6 +71,40 @@ class TransactionRepository:
             query = query.where(Tea.id == tea_id)
 
         query = query.limit(20)
+
+        result = await self.db.execute(query)
+        return result.mappings().all()
+
+    async def get_recent_removal_variants(self) -> list[RecentlyRemovedResponse]:
+        subquery = (
+            select(
+                StockTransaction.tea_variant_id,
+                StockTransaction.created_at,
+                Tea.name.label("tea_name"),
+                TeaVariant.harvest_year,
+                TeaVariant.packaging,
+                TeaVariant.flush,
+                TeaVariant.weight_grams,
+            )
+            .join(TeaVariant, TeaVariant.id == StockTransaction.tea_variant_id)
+            .join(Tea, Tea.id == TeaVariant.tea_id)
+            .where(
+                StockTransaction.transaction_type.in_(
+                    [
+                        TransactionType.sale,
+                        TransactionType.donation,
+                        TransactionType.ceremony,
+                        TransactionType.damaged,
+                    ]
+                )
+            )
+            .distinct(StockTransaction.tea_variant_id)
+            .order_by(
+                StockTransaction.tea_variant_id, StockTransaction.created_at.desc()
+            )
+        ).subquery()
+
+        query = select(subquery).order_by(subquery.c.created_at.desc()).limit(3)
 
         result = await self.db.execute(query)
         return result.mappings().all()

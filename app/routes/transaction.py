@@ -8,7 +8,11 @@ from fastapi.responses import StreamingResponse
 from app.auth.utils import get_current_user, require_admin
 from app.dependencies import get_transaction_service
 from app.enums import TransactionType
-from app.schemas import ActivityFeedResponse, CreateTransactionRequest
+from app.schemas import (
+    ActivityFeedResponse,
+    CreateTransactionRequest,
+    RecentlyRemovedResponse,
+)
 from app.services import TransactionService
 
 router = APIRouter()
@@ -32,6 +36,16 @@ async def get_latest_transactions(
     tea_id: int | None = None,
 ):
     return await service.get_latest_transactions(tea_id=tea_id)
+
+
+@router.get(
+    "/transactions/recently_removed_transactions",
+    response_model=list[RecentlyRemovedResponse],
+)
+async def get_recent_removal_variants(
+    service: TransactionService = Depends(get_transaction_service),
+):
+    return await service.get_recent_removal_variants()
 
 
 @router.get("/transactions/export")
