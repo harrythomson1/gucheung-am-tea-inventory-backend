@@ -95,6 +95,7 @@ class TransactionRepository:
                         TransactionType.donation,
                         TransactionType.ceremony,
                         TransactionType.damaged,
+                        TransactionType.repackage,
                     ]
                 )
             )
