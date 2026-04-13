@@ -8,6 +8,7 @@ class TransactionType(enum.Enum):
     damaged = "damaged"
     convert = "convert"
     harvest = "harvest"
+    repackage = "repackage"
 
 
 class SalesChannelType(enum.Enum):
