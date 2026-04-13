@@ -39,10 +39,10 @@ async def get_latest_transactions(
 
 
 @router.get(
-    "/recently_removed_transactions", response_model=list[RecentlyRemovedResponse]
+    "/transactions/recently_removed_transactions",
+    response_model=list[RecentlyRemovedResponse],
 )
 async def get_recent_removal_variants(
-    _: dict = Depends(get_current_user),
     service: TransactionService = Depends(get_transaction_service),
 ):
     return await service.get_recent_removal_variants()
