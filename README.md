@@ -1,7 +1,6 @@
 <a id="readme-top"></a>
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
     <img width="320" height="320" alt="logo" src="https://github.com/user-attachments/assets/c59d1d4d-f13b-4a5c-924c-0d4a0f359270" />
   </a>
 </div>
